@@ -78,11 +78,20 @@
     let myDate = new Date();
     let now = myDate.getDate() + "." + myDate.getMonth() + "." + myDate.getFullYear() + " " + myDate.getHours() + ":" +myDate.getMinutes() ;
 
+
+
+
+
     button.addEventListener("click",()=>{
     const oldHtml =list.innerHTML;
     let counter = 0;
     counterEl.textContent = counter
     const olddHtml =counterEl.innerHTML;
+    if (textEl.value === "" && nameEl.value==="") {
+        return
+      }
+
+
     list.innerHTML= oldHtml +`<li class="comment">
           <div class="comment-header">
             <div>${nameEl.value}</div>
@@ -101,6 +110,8 @@
           </div>
         </li>`
   
+
+
       })
       
   
