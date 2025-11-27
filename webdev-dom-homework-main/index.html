@@ -42,7 +42,7 @@
               <button class="like-button -active-like"></button>
             </div>
           </div>
-        </li>
+        </li> 
       </ul>
       <div class="add-form">
         <input  
@@ -64,11 +64,48 @@
       </div>
     </div>
   </body>
+<style>
+ 
+.like-icon {
+  width: 26px;
+  height: 26px;
+  fill: #7334ea; 
+  stroke: #98e469;
+  stroke-width: 2px;
+}
+.like-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.like-button.active .like-icon {
+  fill: #ff4d4d;
+} 
 
+</style>
   <script>
     "use strict";
     // Проверка ветки
     // Код писать здесь
+    const lik = [
+   { 
+    name: "Глеб Фокин",
+    text: "Это будет первый комментарий на этой странице",
+    liki: 3,
+    date: "12.02.22 12:18",
+      isLiked: false 
+
+   },
+   {
+    name: "Варвара Н.",
+    text: "Мне нравится как оформлена эта страница! ❤",
+    liki: 75,
+    date: "13.02.22 19:22",
+    isLiked: false  
+   }
+    ]
+   
     const nameEl = document.getElementById("field")
     const textEl = document.getElementById("tex")
     const button = document.getElementById("add")
@@ -79,39 +116,102 @@
     let now = myDate.getDate() + "." + myDate.getMonth() + "." + myDate.getFullYear() + " " + myDate.getHours() + ":" +myDate.getMinutes() ;
 
 
-
-
-
-    button.addEventListener("click",()=>{
-    const oldHtml =list.innerHTML;
-    let counter = 0;
-    counterEl.textContent = counter
-    const olddHtml =counterEl.innerHTML;
-    if (textEl.value === "" && nameEl.value==="") {
-        return
-      }
-
-
-    list.innerHTML= oldHtml +`<li class="comment">
+const rendorStudion =()=>{
+  
+const studionHtml = lik.map((item,index)=>{
+  const activeClass = item.isLiked ? 'active' : '';
+  return`<li class="comment">
           <div class="comment-header">
-            <div>${nameEl.value}</div>
-            <div>${now}</div>
+            <div>${item.name}</div>
+            <div>${item.date}</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
-              ${textEl.value}
+             ${item.text}
             </div>
           </div>
           <div class="comment-footer">
             <div class="likes">
-              <span class="likes-counter">${counterEl.textContent}</span>
-              <button class="like-button"></button>
+              <span class="likes-counter"data-index="${index}">${item.liki}</span>
+              <button class="like-button ${activeClass}"data-index="${index}"><svg class="like-icon" xmlns="www.w3.org" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg></button>
             </div>
           </div>
-        </li>`
-  
+        </li>`;}).join("");
+        list.innerHTML = studionHtml;
+
+ const likesEl = document.querySelectorAll(".like-button")
+ 
+ for(const studionE of likesEl){
+  studionE.addEventListener("click",()=>{
+
+    const index = parseInt( studionE.dataset.index)
+
+   if (!lik[index].isLiked) {
+     
+      lik[index].liki++;
+      lik[index].isLiked = true;
+      studionE.classList.add("active")
+    } else {
+
+      lik[index].liki --;
+      lik[index].isLiked = false;
+      studionE.classList.remove("active")
+    }
+    rendorStudion()
+  })
+ }
+
+       }
+ rendorStudion()
 
 
+
+
+
+ 
+
+    button.addEventListener("click",()=>{
+    
+      let counter = 0;
+       counterEl.textContent = counter
+       const olddHtml =counterEl.innerHTML;
+    if (textEl.value === "" || nameEl.value === "") {
+        return
+      }
+
+      lik.push({    
+     name: nameEl.value,
+    text: textEl.value,
+    liki: 0,
+    date: now
+      })
+    //   const oldHtml =list.innerHTML;
+    // list.innerHTML= oldHtml +`<li class="comment">
+    //       <div class="comment-header">
+    //         <div>${nameEl.value}</div>
+    //         <div>${now}</div>
+    //       </div>
+    //       <div class="comment-body">
+    //         <div class="comment-text">
+    //           ${textEl.value}
+    //         </div>
+    //       </div>
+    //       <div class="comment-footer">
+    //         <div class="likes">
+    //           <span class="likes-counter">${counterEl.textContent}</span>
+    //           <button class="like-button"></button>
+    //         </div>
+    //       </div>
+    //     </li>`
+
+
+
+
+  nameEl.value ="";
+  textEl.value = ""
+rendorStudion()
       })
       
   
