@@ -120,7 +120,7 @@ const rendorStudion =()=>{
   
 const studionHtml = lik.map((item,index)=>{
   const activeClass = item.isLiked ? 'active' : '';
-  return`<li class="comment">
+  return `<li class="comment">
           <div class="comment-header">
             <div>${item.name}</div>
             <div>${item.date}</div>
@@ -155,7 +155,7 @@ const studionHtml = lik.map((item,index)=>{
       studionE.classList.add("active")
     } else {
 
-      lik[index].liki --;
+      lik[index].liki--;
       lik[index].isLiked = false;
       studionE.classList.remove("active")
     }
@@ -187,28 +187,6 @@ const studionHtml = lik.map((item,index)=>{
     liki: 0,
     date: now
       })
-    //   const oldHtml =list.innerHTML;
-    // list.innerHTML= oldHtml +`<li class="comment">
-    //       <div class="comment-header">
-    //         <div>${nameEl.value}</div>
-    //         <div>${now}</div>
-    //       </div>
-    //       <div class="comment-body">
-    //         <div class="comment-text">
-    //           ${textEl.value}
-    //         </div>
-    //       </div>
-    //       <div class="comment-footer">
-    //         <div class="likes">
-    //           <span class="likes-counter">${counterEl.textContent}</span>
-    //           <button class="like-button"></button>
-    //         </div>
-    //       </div>
-    //     </li>`
-
-
-
-
   nameEl.value ="";
   textEl.value = ""
 rendorStudion()
