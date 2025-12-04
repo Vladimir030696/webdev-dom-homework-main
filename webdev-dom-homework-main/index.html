@@ -9,6 +9,7 @@
   <body>
     <div class="container">
       <ul class="comments" id="list">
+
         <li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
@@ -82,7 +83,9 @@
 .like-button.active .like-icon {
   fill: #ff4d4d;
 } 
-
+.comment-text{
+  cursor: pointer;
+}
 </style>
   <script>
     "use strict";
@@ -110,10 +113,26 @@
     const textEl = document.getElementById("tex")
     const button = document.getElementById("add")
     const list = document.getElementById("list")   
-    const counterEl= document.getElementById("counter")
-    const likeEl = document.getElementById("like")
+    
+
+    
     let myDate = new Date();
     let now = myDate.getDate() + "." + myDate.getMonth() + "." + myDate.getFullYear() + " " + myDate.getHours() + ":" +myDate.getMinutes() ;
+
+
+
+
+
+ function sanitizeInput(html) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || '';
+    }
+
+
+
+
+
 
 
 const rendorStudion =()=>{
@@ -126,7 +145,7 @@ const studionHtml = lik.map((item,index)=>{
             <div>${item.date}</div>
           </div>
           <div class="comment-body">
-            <div class="comment-text">
+            <div class="comment-text"data-index="${index}">
              ${item.text}
             </div>
           </div>
@@ -170,20 +189,61 @@ const studionHtml = lik.map((item,index)=>{
 
 
 
+
+ // 1. Добавляем обработчики лайков
+      const likesEl = document.querySelectorAll(".like-button");
+      for (const studionE of likesEl) {
+        studionE.addEventListener("click", () => {
+          const index = parseInt(studionE.dataset.index);
+          if (!lik[index].isLiked) {
+            lik[index].liki++;
+            lik[index].isLiked = true;
+          } else {
+            lik[index].liki--;
+            lik[index].isLiked = false;
+          }
+          rendorStudion(); // Перерисовываем список для обновления UI
+        });
+      }
+
+ const commentTexts = document.querySelectorAll(".comment-text");
+ for (const commentTextEl of commentTexts) {
+          commentTextEl.addEventListener("click", () => {
+              const index = parseInt(commentTextEl.dataset.index);
+              const authorName = lik[index].name;
+              // Заменяем <br> обратно на переносы строк (\n) для корректного отображения в textarea
+              const originalText = lik[index].text.replace(/<br\s*\/?>/g, '\n'); 
+              
+              // Формируем текст ответа и подставляем в textarea
+              textEl.value = `"${originalText}"\n${authorName}, `;
+              // nameEl.value = ""; // Опционально очищаем имя, если нужно
+              textEl.focus(); // Устанавливаем фокус на поле ввода комментария
+          });
+      }
+    
+
+
+
+
+
+
+
+
+
+
+
  
 
     button.addEventListener("click",()=>{
     
-      let counter = 0;
-       counterEl.textContent = counter
-       const olddHtml =counterEl.innerHTML;
+     
     if (textEl.value === "" || nameEl.value === "") {
         return
       }
 
       lik.push({    
-     name: nameEl.value,
-    text: textEl.value,
+     name: nameEl.value.replaceAll("<","&lt;").replaceAll(">","&gt;"),
+    text: textEl.value.replaceAll("<","&lt;").replaceAll(">","&gt;"),
     liki: 0,
     date: now
       })
