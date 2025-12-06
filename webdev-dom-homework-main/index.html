@@ -64,6 +64,7 @@
         </div>
       </div>
     </div>
+
   </body>
 <style>
  
@@ -159,6 +160,7 @@ const studionHtml = lik.map((item,index)=>{
           </div>
         </li>`;}).join("");
         list.innerHTML = studionHtml;
+        
 
  const likesEl = document.querySelectorAll(".like-button")
  
@@ -186,40 +188,20 @@ const studionHtml = lik.map((item,index)=>{
  rendorStudion()
 
 
+    
 
+     document.querySelectorAll(".comment-text").forEach(el => {
+        el.addEventListener("click", () => {
+          const index = parseInt(el.dataset.index);
+          const author = lik[index].name;
+          const text = lik[index].text;
 
-
-
- // 1. Добавляем обработчики лайков
-      const likesEl = document.querySelectorAll(".like-button");
-      for (const studionE of likesEl) {
-        studionE.addEventListener("click", () => {
-          const index = parseInt(studionE.dataset.index);
-          if (!lik[index].isLiked) {
-            lik[index].liki++;
-            lik[index].isLiked = true;
-          } else {
-            lik[index].liki--;
-            lik[index].isLiked = false;
-          }
-          rendorStudion(); // Перерисовываем список для обновления UI
+          // Форматируем цитату
+          const quote = `> Ответ на: ${text}\n> Автор: ${author}\n\n`;
+          textEl.value = quote + textEl.value; // Добавляем к текущему вводу
+          nameEl.focus(); // Фокусируем поле имени
         });
-      }
-
- const commentTexts = document.querySelectorAll(".comment-text");
- for (const commentTextEl of commentTexts) {
-          commentTextEl.addEventListener("click", () => {
-              const index = parseInt(commentTextEl.dataset.index);
-              const authorName = lik[index].name;
-              // Заменяем <br> обратно на переносы строк (\n) для корректного отображения в textarea
-              const originalText = lik[index].text.replace(/<br\s*\/?>/g, '\n'); 
-              
-              // Формируем текст ответа и подставляем в textarea
-              textEl.value = `"${originalText}"\n${authorName}, `;
-              // nameEl.value = ""; // Опционально очищаем имя, если нужно
-              textEl.focus(); // Устанавливаем фокус на поле ввода комментария
-          });
-      }
+      });
     
 
 
@@ -229,10 +211,6 @@ const studionHtml = lik.map((item,index)=>{
 
 
 
-
-
-
- 
 
     button.addEventListener("click",()=>{
     
