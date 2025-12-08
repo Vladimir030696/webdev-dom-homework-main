@@ -122,20 +122,6 @@
 
 
 
-
-
- function sanitizeInput(html) {
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      return tempDiv.textContent || tempDiv.innerText || '';
-    }
-
-
-
-
-
-
-
 const rendorStudion =()=>{
   
 const studionHtml = lik.map((item,index)=>{
@@ -188,27 +174,23 @@ const studionHtml = lik.map((item,index)=>{
  rendorStudion()
 
 
+ function sanitizeInput(html) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || '';
+    }
     
 
-     document.querySelectorAll(".comment-text").forEach(el => {
-        el.addEventListener("click", () => {
-          const index = parseInt(el.dataset.index);
-          const author = lik[index].name;
-          const text = lik[index].text;
-
-          // Форматируем цитату
-          const quote = `> Ответ на: ${text}\n> Автор: ${author}\n\n`;
-          textEl.value = quote + textEl.value; // Добавляем к текущему вводу
-          nameEl.focus(); // Фокусируем поле имени
-        });
-      });
-    
-
-
-
-
-
-
+list.addEventListener('click', (event) => {
+  if (event.target.classList.contains('comment-text')) {
+    const index = parseInt(event.target.dataset.index);
+    const author = lik[index].name;
+    const text = lik[index].text;   
+    const quote = `> Ответ на: ${text}\n> Автор: ${author}\n\n`;
+    textEl.value = quote + textEl.value;
+    nameEl.focus();
+  }
+});
 
 
 
@@ -231,6 +213,28 @@ rendorStudion()
       })
       
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     console.log("It works!");
+
+
+
+  
   </script>
 </html>
