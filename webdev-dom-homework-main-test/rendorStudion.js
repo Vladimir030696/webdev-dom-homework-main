@@ -43,4 +43,4 @@ const studionHtml = lik.map((item,index)=>{
  }}
   rendorStudion()
 
- 
+  

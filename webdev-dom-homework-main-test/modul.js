@@ -15,8 +15,13 @@ export const modul = () => {
       liki: 0,
       date: now
         })
+
     nameEl.value ="";
     textEl.value = ""
   rendorStudion()
-        })     }
+        })
+      
+}
+ 
+
         

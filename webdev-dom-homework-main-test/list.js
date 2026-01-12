@@ -13,6 +13,8 @@
      \n`;
      textEl.value = quote + textEl.value;
      nameEl.focus();
-   }
+   
+    }
  });}
    rendorStudion()
+  
