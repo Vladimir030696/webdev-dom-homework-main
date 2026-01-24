@@ -1,6 +1,6 @@
  import {rendorStudion} from"./rendorStudion.js";
  import { lik } from "./masiv.js";
- export const listModule =()=>{
+ export let listModule =()=>{
  const textEl = document.getElementById("tex")
   const nameEl = document.getElementById("field")
   list.addEventListener('click', (event) => {
@@ -14,7 +14,25 @@
      textEl.value = quote + textEl.value;
      nameEl.focus();
    
+
+
+
+     fetch("https://wedev-api.sky.pro/api/v1/Vladimir030696/comments",{
+        method: "POST",
+       
+      
+body: JSON.stringify({ "text": "Текст коммента", "name": "Глеб Ф." }),
+      }).then( response =>{
+        return response.json()
+      }).then(data=>{
+        console.log(data)
+         updateTasks(data.comments)
+         
+           
+            //    modul() 
+            //  listModule()
+      })
     }
  });}
-   rendorStudion()
+
   

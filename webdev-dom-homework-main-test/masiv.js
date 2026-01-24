@@ -18,6 +18,7 @@ export let lik = [
    
     export let updateTasks = (mewTasks) => {
       lik = mewTasks
+   
     }
 
 

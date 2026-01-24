@@ -1,5 +1,19 @@
 import {lik} from"./masiv.js"
+import { updateTasks } from "./masiv.js";
 export const rendorStudion =()=>{ 
+   fetch(' https://wedev-api.sky.pro/api/v1/Vladimir030696/comments' )
+ .then((response)=>{
+    return response.json()
+ })
+ .then((data)=>{
+    console.log(data)
+  
+    updateTasks(data.comments)
+ 
+    //  rendorStudion()
+    //    modul() 
+    //  listModule()
+})
 const studionHtml = lik.map((item,index)=>{
   const activeClass = item.isLiked ? 'active' : '';
   return `<li class="comment">
@@ -38,7 +52,7 @@ const studionHtml = lik.map((item,index)=>{
       lik[index].isLiked = false;
       studionE.classList.remove("active")
     }
-    rendorStudion()
+ 
   })
  }}
   rendorStudion()
