@@ -5,7 +5,7 @@ import { modul } from "./modul.js";
   const textEl = document.getElementById("tex")
   const nameEl = document.getElementById("field")
  
- const getComments = () => {
+export const getComments = () => {
  fetch(' https://wedev-api.sky.pro/api/v1/Vladimir030696/comments', {
     method: 'GET',
  })
@@ -20,8 +20,10 @@ import { modul } from "./modul.js";
     listModule()
 })
  }
-const newTasc ={
-    "text": "Текст коммента", "name": "Глеб Ф." 
+
+export const postComment =()=>{
+ const newTasc ={
+    "text":  textEl.value, "name": nameEl.value
 }
  fetch('https://wedev-api.sky.pro/api/v1/Vladimir030696/comments',{
     method: 'POST',
@@ -32,11 +34,32 @@ const newTasc ={
  }).then((data) => {
     getComments(); 
     
-    // Очистка полей (убедитесь, что переменные inputName/inputText созданы)
     nameEl.value = "";
     textEl.value = "";
 
- })
+ })}
+getComments();
+const buttonEl = document.querySelector(".add-form-button"); 
+buttonEl.addEventListener("click", () => { 
+    postComment();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //  .then((data)=>{
 //     updateTasks(data.comments)

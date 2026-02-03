@@ -5,7 +5,11 @@ import {updateTasks} from"./masiv";
  
  
 
-
+import{getComments} from"./index.js"
+import { postComment } from "./index.js";
+import {newTasc}from"./index.js"
+getComments()
+postComment()
 
 
 
