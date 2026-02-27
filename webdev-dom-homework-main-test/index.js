@@ -6,6 +6,14 @@ import { modul } from "./modul.js";
   const nameEl = document.getElementById("field")
  
 export const getComments = () => {
+   const loader = document.getElementById("comments-loader");
+    const listElement = document.getElementById("list");
+
+
+   loader.style.display = "block";
+    listElement.style.display = "none";
+
+
  fetch(' https://wedev-api.sky.pro/api/v1/Vladimir030696/comments', {
     method: 'GET',
  })
@@ -19,13 +27,30 @@ export const getComments = () => {
     modul() 
     listModule()
 })
- }
+
+
+
+.finally(() => {
+        loader.style.display = "none";
+        listElement.style.display = "flex"; 
+    });
+
+
+
+
+   }
 
 export const postComment =()=>{
+
+
+
+
+
+   
  const newTasc ={
     "text":  textEl.value, "name": nameEl.value
 }
- fetch('https://wedev-api.sky.pro/api/v1/Vladimir030696/comments',{
+ fetch('http://wedev-api.sky.pro/api/v1/Vladimir030696/comments',{
     method: 'POST',
     body: JSON.stringify(newTasc),
  })
@@ -37,11 +62,21 @@ export const postComment =()=>{
     nameEl.value = "";
     textEl.value = "";
 
- })}
+ }) .finally(() => {
+        // Этот блок выполнится в ЛЮБОМ случае: и при успехе, и при ошибке
+        buttonEl.disabled = false;
+        buttonEl.textContent = 'Написать';
+    });}
 getComments();
 const buttonEl = document.querySelector(".add-form-button"); 
+buttonEl.disabled = false
+buttonEl.textContent = 'Написать'
 buttonEl.addEventListener("click", () => { 
-    postComment();
+
+   buttonEl.disabled = true
+buttonEl.textContent ='Жди отправляется!!!'
+    postComment(); 
+    
 });
 
 

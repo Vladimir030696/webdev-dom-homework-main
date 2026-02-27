@@ -8,6 +8,18 @@
 
   <body>
     <div class="container">
+      
+
+
+
+<div id="comments-loader" class="loader" style="display: none; margin: 10px 0;">
+  Загружаются комментарии...
+</div>
+
+
+
+
+
       <ul class="comments" id="list">
 
         <li class="comment">
@@ -63,11 +75,67 @@
           <button class="add-form-button" id="add">Написать</button>
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
+
+
 
   </body>
 <style>
  
+
+
+
+
+
+
+
+
+
+.spinner {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #ccc;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 5px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .like-icon {
   width: 26px;
   height: 26px;
