@@ -9,5 +9,4 @@ import { modul } from "./modul.js";
 import{getComments} from"./api.js"
 import { postComment } from "./api.js";
 
-getComments()
-postComment()
+
