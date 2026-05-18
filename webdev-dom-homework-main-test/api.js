@@ -3,9 +3,52 @@ import { modul } from "./modul.js";
  import { updateTasks } from "./masiv.js";
 import {listModule} from"./list.js";
 
+
+
+export let token = localStorage.getItem("token") || null;//test
+
  const textEl = document.getElementById("tex")
   const nameEl = document.getElementById("field")
  
+ 
+ 
+  const authBlockEl = document.getElementById("auth-block"); //test
+const addFormEl = document.getElementById("add-form");// test
+
+
+
+export const checkAuth = () => {
+    const token = localStorage.getItem("token");
+    const userName = localStorage.getItem("userName"); // Достаем имя
+    const addFormEl = document.getElementById("add-form");
+    const authBlockEl = document.getElementById("auth-block");
+    const nameEl = document.getElementById("field"); // Инпут имени
+
+    if (token) {
+        if (addFormEl) addFormEl.style.display = "flex";
+        if (authBlockEl) authBlockEl.style.display = "none";
+        
+        // Автоподстановка имени
+        if (nameEl && userName) {
+            nameEl.value = userName;
+            nameEl.disabled = true; // Запрещаем менять имя авторизованного юзера
+        }
+    } else {
+        if (addFormEl) addFormEl.style.display = "none";
+        if (authBlockEl) authBlockEl.style.display = "block";
+    }
+};//test
+
+
+
+
+
+
+
+
+
+
+
 export const getComments = () => {
    const loader = document.getElementById("comments-loader");
     const listElement = document.getElementById("list");
@@ -14,7 +57,7 @@ export const getComments = () => {
    loader.style.display = "block";
     listElement.style.display = "none";
 
- fetch('https://wedev-api.sky.pro/api/v1/Vladimir030696/comments', {
+ fetch('https://wedev-api.sky.pro/api/v2/Vladimir030696/comments', {
     method: 'GET',
  })
  .then((response)=>{
@@ -26,6 +69,7 @@ export const getComments = () => {
     rendorStudion()
     modul() 
     listModule()
+     checkAuth()
 })
 .finally(() => {
         loader.style.display = "none";
@@ -34,7 +78,13 @@ export const getComments = () => {
 }
 export const postComment =()=>{
    
-   
+      if (!token) {
+        alert("Вы должны авторизоваться, чтобы оставлять комментарии!");
+        return;
+    }//tets
+
+
+
   nameEl.classList.remove("error");
   textEl.classList.remove("error");
 
@@ -51,14 +101,20 @@ export const postComment =()=>{
     }
 
     const newTasc ={
-    "text":  textEl.value, "name": nameEl.value
+    "text":  textEl.value,
+     "name": nameEl.value
 }
- fetch('https://wedev-api.sky.pro/api/v1/Vladimir030696/comments',{
+ fetch('https://wedev-api.sky.pro/api/v2/Vladimir030696/comments',{
     method: 'POST',
     body: JSON.stringify(newTasc),
+      headers: {
+            Authorization: `Bearer ${token}`,
+        }//tets
  })
  .then((response)=>{
-
+    if (response.status === 401) {
+            throw new Error("Вы не авторизованы");//tets
+        }
     if (response.status === 400) {
             throw new Error("Слишком короткое имя или текст");
         }
