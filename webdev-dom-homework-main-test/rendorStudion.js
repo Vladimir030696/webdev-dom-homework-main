@@ -1,10 +1,10 @@
-import {lik} from"./masiv.js"
+import { lik } from "./masiv.js";
 import { updateTasks } from "./masiv.js";
-export const rendorStudion =()=>{ 
-  
-const studionHtml = lik.map((item,index)=>{
-  const activeClass = item.isLiked ? 'active' : '';
-  return `<li class="comment">
+export const rendorStudion = () => {
+  const studionHtml = lik
+    .map((item, index) => {
+      const activeClass = item.isLiked ? "active" : "";
+      return `<li class="comment">
           <div class="comment-header">
             <div>${item.name}</div>
             <div>${item.date}</div>
@@ -22,27 +22,25 @@ const studionHtml = lik.map((item,index)=>{
                 </svg></button>
             </div>
           </div>
-        </li>`;}).join("");
-        list.innerHTML = studionHtml;
-      const likesEl = document.querySelectorAll(".like-button")
- for(const studionE of likesEl){
- studionE.addEventListener("click",()=>{
- const index = parseInt( studionE.dataset.index)
+        </li>`;
+    })
+    .join("");
+  list.innerHTML = studionHtml;
+  const likesEl = document.querySelectorAll(".like-button");
+  for (const studionE of likesEl) {
+    studionE.addEventListener("click", () => {
+      const index = parseInt(studionE.dataset.index);
 
-   if (!lik[index].isLiked) {
-     
-      lik[index].liki++;
-      lik[index].isLiked = true;
-      studionE.classList.add("active")
-    } else {
-
-      lik[index].liki--;
-      lik[index].isLiked = false;
-      studionE.classList.remove("active")
-    }
- 
-  })
- }}
-  rendorStudion()
-
-  
+      if (!lik[index].isLiked) {
+        lik[index].liki++;
+        lik[index].isLiked = true;
+        studionE.classList.add("active");
+      } else {
+        lik[index].liki--;
+        lik[index].isLiked = false;
+        studionE.classList.remove("active");
+      }
+    });
+  }
+};
+rendorStudion();
