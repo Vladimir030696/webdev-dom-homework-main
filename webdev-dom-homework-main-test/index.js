@@ -17,7 +17,7 @@ function checkAuth() {
     if (addFormEl) addFormEl.style.display = "flex";
     if (nameInputEl && userName) {
       nameInputEl.value = userName;
-      nameInputEl.disabled = true;
+  
     }
   } else {
     if (loginAlertEl) loginAlertEl.style.display = "block";

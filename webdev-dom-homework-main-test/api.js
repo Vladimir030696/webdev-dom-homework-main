@@ -3,28 +3,23 @@ import { modul } from "./modul.js";
 import { updateTasks } from "./masiv.js";
 import { listModule } from "./list.js";
 
-// Экспортируем токен и функцию обновления токена (понадобится при перезаходе)
 export let token = localStorage.getItem("token") || null;
 
 const textEl = document.getElementById("tex");
-const nameEl = document.getElementById("field");
-const buttonEl = document.querySelector(".add-form-button"); // Перенесли наверх, чтобы был доступен везде
+const nameEl = document.getElementById("field"); 
+const buttonEl = document.querySelector(".add-form-button"); 
 
 export const checkAuth = () => {
-  // Обновляем значение токена из хранилища на случай, если пользователь только что вошел
   token = localStorage.getItem("token");
   const userName = localStorage.getItem("userName");
   const addFormEl = document.getElementById("add-form");
   const authBlockEl = document.getElementById("auth-block");
-  const nameEl = document.getElementById("field"); 
 
   if (token) {
     if (addFormEl) addFormEl.style.display = "flex";
     if (authBlockEl) authBlockEl.style.display = "none";
-
-    if (nameEl && userName) {
+    if (nameEl && userName && !nameEl.value.trim()) {
       nameEl.value = userName;
-      nameEl.disabled = true; 
     }
   } else {
     if (addFormEl) addFormEl.style.display = "none";
@@ -44,7 +39,6 @@ export const getComments = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       updateTasks(data.comments);
       rendorStudion();
       modul();
@@ -70,20 +64,17 @@ export const postComment = () => {
   nameEl.classList.remove("error");
   textEl.classList.remove("error");
 
-  // Валидация: если имя или текст короткие
   if (nameEl.value.trim().length < 3 || textEl.value.trim().length < 3) {
     if (nameEl.value.trim().length < 3) nameEl.classList.add("error");
     if (textEl.value.trim().length < 3) textEl.classList.add("error");
-
     alert("Имя и комментарий должны содержать хотя бы 3 символа!");
-
-    // Разблокируем кнопку ЗДЕСЬ, так как до блока finally код не дойдет из-за return
     if (buttonEl) {
       buttonEl.disabled = false;
       buttonEl.textContent = "Написать";
     }
-    return; // Полностью останавливаем функцию, запрос на сервер НЕ отправляется
+    return; 
   }
+  localStorage.setItem("userName", nameEl.value);
 
   const newTasc = {
     text: textEl.value,
@@ -98,20 +89,16 @@ export const postComment = () => {
     },
   })
     .then((response) => {
-      if (response.status === 401) {
-        throw new Error("Вы не авторизованы");
-      }
-      if (response.status === 400) {
-        throw new Error("Слишком короткое имя или текст");
-      }
-      if (response.status === 500) {
-        throw new Error("Сервер сломался, попробуй позже");
-      }
+      if (response.status === 401) throw new Error("Вы не авторизованы");
+      if (response.status === 400) throw new Error("Слишком короткое имя или текст");
+      if (response.status === 500) throw new Error("Сервер сломался, попробуй позже");
       return response.json();
     })
     .then((data) => {
+      localStorage.setItem("latestCommentText", textEl.value);
+      localStorage.setItem("userName", nameEl.value);
       getComments();
-      textEl.value = ""; // Очищаем только текст (имя авторизованного юзера остается)
+      textEl.value = ""; 
     })
     .catch((error) => {
       if (error.message === "Failed to fetch") {
@@ -119,7 +106,6 @@ export const postComment = () => {
       } else {
         alert(error.message);
       }
-      console.warn(error);
     })
     .finally(() => {
       if (buttonEl) {
@@ -129,7 +115,6 @@ export const postComment = () => {
     });
 };
 
-// Инициализация при загрузке страницы
 getComments();
 
 if (buttonEl) {
@@ -141,3 +126,4 @@ if (buttonEl) {
     postComment();
   });
 }
+

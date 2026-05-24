@@ -209,7 +209,15 @@ body {
 }
 .login-link {
   text-align: center;
-  color: #7334ea;
-  text-decoration: none;
-  font-size: 14px;
+  color:  #7334ea;
+  text-decoration: underline;
+  font-size: 18px;
+}
+.login-alert {
+  display: none;
+  margin-top: 48px;
+  font-size: 18px;
+}
+.add-form {
+  display: none;
 }
